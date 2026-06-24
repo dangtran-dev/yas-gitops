@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: yas-dev
+    namespace: argocd
+    annotations:
+        argocd-image-updater.argoproj.io/image-list: >-
+            product=lebaoo12/yas-product,
+            cart=lebaoo12/yas-cart,
+            order=lebaoo12/yas-order,
+            customer=lebaoo12/yas-customer,
+            inventory=lebaoo12/yas-inventory,
+            tax=lebaoo12/yas-tax,
+            media=lebaoo12/yas-media,
+            search=lebaoo12/yas-search,
+            storefront-bff=lebaoo12/yas-storefront-bff,
+            storefront-ui=lebaoo12/yas-storefront-ui,
+            backoffice-bff=lebaoo12/yas-backoffice-bff,
+            backoffice-ui=lebaoo12/yas-backoffice-ui,
+            swagger-ui=lebaoo12/yas-swagger-ui
+        argocd-image-updater.argoproj.io/product.update-strategy: latest
+        argocd-image-updater.argoproj.io/product.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/cart.update-strategy: latest
+        argocd-image-updater.argoproj.io/cart.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/order.update-strategy: latest
+        argocd-image-updater.argoproj.io/order.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/customer.update-strategy: latest
+        argocd-image-updater.argoproj.io/customer.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/inventory.update-strategy: latest
+        argocd-image-updater.argoproj.io/inventory.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/tax.update-strategy: latest
+        argocd-image-updater.argoproj.io/tax.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/media.update-strategy: latest
+        argocd-image-updater.argoproj.io/media.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/search.update-strategy: latest
+        argocd-image-updater.argoproj.io/search.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/storefront-bff.update-strategy: latest
+        argocd-image-updater.argoproj.io/storefront-bff.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/storefront-ui.update-strategy: latest
+        argocd-image-updater.argoproj.io/storefront-ui.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/backoffice-bff.update-strategy: latest
+        argocd-image-updater.argoproj.io/backoffice-bff.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/backoffice-ui.update-strategy: latest
+        argocd-image-updater.argoproj.io/backoffice-ui.allow-tags: "regexp:^main$"
+        argocd-image-updater.argoproj.io/swagger-ui.update-strategy: latest
+        argocd-image-updater.argoproj.io/swagger-ui.allow-tags: "regexp:^main$"
+spec:
+    project: default
+    source:
+        repoURL: https://github.com/<username>/yas-gitops
+        targetRevision: HEAD
+        path: dev
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+            - CreateNamespace=true
