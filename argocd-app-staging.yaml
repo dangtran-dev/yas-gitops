@@ -47,7 +47,7 @@ metadata:
 spec:
     project: default
     source:
-        repoURL: https://github.com/<username>/yas-gitops
+        repoURL: https://github.com/dangtran-dev/yas-gitops
         targetRevision: HEAD
         path: staging
     destination:
