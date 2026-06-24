@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: customer
+    namespace: dev
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: customer
+    template:
+        metadata:
+            labels:
+                app: customer
+        spec:
+            serviceAccountName: customer
+            containers:
+                - name: customer
+                  image: lebaoo12/yas-customer:main
+                  ports:
+                      - containerPort: 8080
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: customer
+    namespace: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer
+    namespace: dev
+spec:
+    selector:
+        app: customer
+    ports:
+        - port: 80
+          targetPort: 8080

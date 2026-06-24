@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: inventory
+    namespace: dev
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: inventory
+    template:
+        metadata:
+            labels:
+                app: inventory
+        spec:
+            serviceAccountName: inventory
+            containers:
+                - name: inventory
+                  image: lebaoo12/yas-inventory:main
+                  ports:
+                      - containerPort: 8080
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: inventory
+    namespace: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: inventory
+    namespace: dev
+spec:
+    selector:
+        app: inventory
+    ports:
+        - port: 80
+          targetPort: 8080
