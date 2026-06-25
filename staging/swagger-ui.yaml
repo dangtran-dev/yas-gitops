@@ -16,7 +16,7 @@ spec:
             serviceAccountName: swagger-ui
             containers:
                 - name: swagger-ui
-                  image: lebaoo12/yas-swagger-ui:main
+                  image: swaggerapi/swagger-ui:v5.17.14
                   ports:
                       - containerPort: 8080
 ---

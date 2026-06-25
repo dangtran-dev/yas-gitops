@@ -16,7 +16,7 @@ spec:
             serviceAccountName: backoffice-ui
             containers:
                 - name: backoffice-ui
-                  image: lebaoo12/yas-backoffice-ui:main
+                  image: lebaoo12/yas-backoffice:main
                   ports:
                       - containerPort: 3000
 ---

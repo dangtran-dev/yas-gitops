@@ -16,7 +16,7 @@ spec:
             serviceAccountName: storefront-ui
             containers:
                 - name: storefront-ui
-                  image: lebaoo12/yas-storefront-ui:main
+                  image: lebaoo12/yas-storefront:main
                   ports:
                       - containerPort: 3000
 ---
