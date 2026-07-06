@@ -23,6 +23,10 @@ spec:
                             name: YAS_SERVICES_PRODUCT,
                             value: "http://product/product",
                         }
+                      - {
+                            name: SPRING_ELASTICSEARCH_URIS,
+                            value: "http://elasticsearch.default.svc.cluster.local:9200",
+                        }
                       - { name: JAVA_TOOL_OPTIONS, value: "-Xmx512m" }
                   resources: { requests: { memory: "256Mi", cpu: "50m" } }
 ---
