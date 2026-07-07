@@ -1,39 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: search, namespace: dev }
+---
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-    name: search
-    namespace: dev
+metadata: { name: search, namespace: dev }
 spec:
     replicas: 1
-    selector:
-        matchLabels:
-            app: search
+    selector: { matchLabels: { app: search } }
     template:
-        metadata:
-            labels:
-                app: search
+        metadata: { labels: { app: search } }
         spec:
             serviceAccountName: search
             containers:
                 - name: search
                   image: lebaoo12/yas-search:main
-                  ports:
-                      - containerPort: 8080
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-    name: search
-    namespace: dev
+                  ports: [{ containerPort: 8080 }]
+                  env:
+                      - { name: SERVER_PORT, value: "8080" }
+                      - { name: SERVER_SERVLET_CONTEXT_PATH, value: "/search" }
+                      - {
+                            name: YAS_SERVICES_PRODUCT,
+                            value: "http://product/product",
+                        }
+                      - {
+                            name: SPRING_ELASTICSEARCH_URIS,
+                            value: "http://elasticsearch.default.svc.cluster.local:9200",
+                        }
+                      - { name: JAVA_TOOL_OPTIONS, value: "-Xmx512m" }
+                  resources: { requests: { memory: "256Mi", cpu: "50m" } }
 ---
 apiVersion: v1
 kind: Service
-metadata:
-    name: search
-    namespace: dev
+metadata: { name: search, namespace: dev }
 spec:
-    selector:
-        app: search
-    ports:
-        - port: 80
-          targetPort: 8080
+    selector: { app: search }
+    ports: [{ name: http, port: 80, targetPort: 8080 }]
