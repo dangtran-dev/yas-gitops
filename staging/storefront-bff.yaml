@@ -1,39 +1,30 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: storefront-bff, namespace: staging }
+---
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-    name: storefront-bff
-    namespace: staging
+metadata: { name: storefront-bff, namespace: staging }
 spec:
     replicas: 1
-    selector:
-        matchLabels:
-            app: storefront-bff
+    selector: { matchLabels: { app: storefront-bff } }
     template:
-        metadata:
-            labels:
-                app: storefront-bff
+        metadata: { labels: { app: storefront-bff } }
         spec:
             serviceAccountName: storefront-bff
             containers:
                 - name: storefront-bff
                   image: lebaoo12/yas-storefront-bff:main
-                  ports:
-                      - containerPort: 8080
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-    name: storefront-bff
-    namespace: staging
+                  ports: [{ containerPort: 8080 }]
+                  env:
+                      - {
+                            name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI,
+                            value: "http://identity.default.svc.cluster.local/realms/Yas",
+                        }
 ---
 apiVersion: v1
 kind: Service
-metadata:
-    name: storefront-bff
-    namespace: staging
+metadata: { name: storefront-bff, namespace: staging }
 spec:
-    selector:
-        app: storefront-bff
-    ports:
-        - port: 80
-          targetPort: 8080
+    selector: { app: storefront-bff }
+    ports: [{ name: http, port: 80, targetPort: 8080 }]
